@@ -324,9 +324,12 @@ void setup()
   Serial.begin(115200);
   setupScreen();
   MySerial.begin(9600, SERIAL_CONFIG, RX_PIN, TX_PIN);
-  pinMode(PIN_THERM, OUTPUT);
-  // digitalWrite(PIN_THERM, PIN_THERM_ACTIVE_STATE);
 
+#ifdef PIN_THERM
+  // Thermostat relay - Set first to the inactive state, before configuring as outputs (avoid false triggering when initializing)
+  digitalWrite(PIN_THERM, THERM_RELAY_INACTIVE_STATE);
+  pinMode(PIN_THERM, OUTPUT);
+#endif
 #ifdef SAFETY_RELAY_PIN
   pinMode(SAFETY_RELAY_PIN, OUTPUT);
   digitalWrite(SAFETY_RELAY_PIN, !SAFETY_RELAY_ACTIVE_STATE);
